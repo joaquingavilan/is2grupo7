@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 # Create your views here.
 def home(request):
-    return render(request,"grupo7/index.html")
+    return render(request,"login/index.html")
 
 def registro(request):
 
@@ -24,7 +24,7 @@ def registro(request):
         user.save()
 
         return redirect('ingreso')
-    return render(request, "grupo7/registro.html")
+    return render(request, "login/registro.html")
 
 
 def ingreso(request):
@@ -38,12 +38,12 @@ def ingreso(request):
         if user is not None:
             login(request,user)
             nombre = user.first_name
-            return render(request, "gestionProyectos/index.html", {'nombre': nombre})
+            return render(request, "login/index.html", {'nombre': nombre})
         else:
             messages.error(request,"Datos erroneos")
             return redirect('home')
 
-    return render(request, "grupo7/ingreso.html")
+    return render(request, "login/ingreso.html")
 def salida(request):
     logout(request)
     return redirect('home')
