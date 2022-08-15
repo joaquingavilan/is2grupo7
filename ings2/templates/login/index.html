@@ -43,14 +43,21 @@
 
 
     {% if user.is_authenticated %}
+    <div class="center">
     <h3>Bienvenido {{nombre}}</h3>
-    <h4>Has ingresado correctamente</h4>
-    <button type="submit"><a href="/salida">Salir</a> </button>
+    <h4>Has ingresado correctamente</h4> <br>
+    <button type="submit" class="btn waves-effect waves btn-large"><a style="color:white;" href="#">Modulo de Seguridad</a> </button>
+    <button type="submit" class="btn waves-effect waves btn-large"><a style="color:white;" href="#">Modulo de Proyectos</a> </button>
+    <button type="submit" class="btn waves-effect waves btn-large"><a style="color:white;" href="#">Modulo de Dashboards</a> </button>
+    <button type="submit" class="btn waves-effect waves"><a style="color:white;" href="/salida">Salir</a> </button>
+    </div>
 
     {% else %}
-    <h3>Bienvenido al sistema</h3>
-    <button type="submit"><a href="/ingreso">Ingresar</a></button>
-    <button type="submit"><a href="/registro">Registrarse</a> </button>
+    <div class="center">
+    <h3>Bienvenido al sistema</h3> <br>
+    <button type="submit" class="btn waves-effect waves btn-large"><a style="color:white" href="/ingreso">Ingresar</a></button>
+    <button type="submit" class="btn waves-effect waves btn-large"><a style="color:white" href="/registro">Registrarse</a> </button>
+    </div>
     {% endif %}
 
 </body>

@@ -31,12 +31,12 @@
     });
     </script>
     {% endblock javascript %}
-    <form action="/ingreso" method="post">
+    <form align="center" action="/ingreso" method="post">
         {% csrf_token %}
-        <label for="">Usuario</label>
+        <label for="" style="font-size:20px">Usuario</label>
         <input type="text" id="usuario" name="usuario" placeholder="Ingresa tu nombre de usuario" required>
         <br>
-        <label for="">Contraseña</label>
+        <label for="" style="font-size:20px">Contraseña</label>
         <input type="password" id="contrasena" name="contrasena" placeholder="Ingresa tu contraseña" required>
         <br>
         <button type="submit" class="waves-effect waves light btn-large">Ingresar</button>

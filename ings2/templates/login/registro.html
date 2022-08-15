@@ -31,29 +31,28 @@
     });
     </script>
     {% endblock javascript %}
-    <h3>Registrarse</h3>
-    <form action="/registro" method="post">
+    <h3 align="center">Registrarse</h3>
+    <form action="/registro" align="center" method="post">
         {% csrf_token %}
-        <label for="">Nombre</label>
-        <input type="text" id="nombre" name="nombre" placeholder="Ingresa tu nombre" required>
+        <label for="" style="font-size:20px">Nombre</label>
+        <input type="text" style="font-size:20px" id="nombre" name="nombre" placeholder="Ingresa tu nombre" required>
         <br>
-        <label for="">Apellido</label>
-        <input type="text" id="apellido" name="apellido" placeholder="Ingresa tu apellido" required>
+        <label for="" style="font-size:20px">Apellido</label>
+        <input type="text" style="font-size:20px" id="apellido" name="apellido" placeholder="Ingresa tu apellido" required>
         <br>
-        <label for="">Correo</label>
-        <input type="email" id="correo" name="correo" placeholder="Ingresa tu direccion de correo" required>
+        <label for="" style="font-size:20px">Correo</label>
+        <input type="email" style="font-size:20px" id="correo" name="correo" placeholder="Ingresa tu direccion de correo" required>
         <br>
-        <label for="">Usuario</label>
-        <input type="text" id="usuario" name="usuario" placeholder="Ingresa un nombre de usuario" required>
+        <label for="" style="font-size:20px">Usuario</label>
+        <input type="text" style="font-size:20px" id="usuario" name="usuario" placeholder="Ingresa un nombre de usuario" required>
         <br>
-        <label for="">Contraseña</label>
-        <input type="password" id="contrasena" name="contrasena" placeholder="Ingresa una contraseña" required>
+        <label for="" style="font-size:20px">Contraseña</label>
+        <input type="password" style="font-size:20px" id="contrasena" name="contrasena" placeholder="Ingresa una contraseña" required>
         <br>
-        <label for="">Confirmar contraseña</label>
-        <input type="password" id="contrasena2" name="contrasena2" placeholder="Confirma tu contraseña" required>
+        <label for="" style="font-size:20px">Confirmar contraseña</label>
+        <input type="password" style="font-size:20px" id="contrasena2" name="contrasena2" placeholder="Confirma tu contraseña" required>
         <br>
-        <button type="submit">Registrarse</button>
-
+        <button type="submit"  class="waves-effect waves light btn-large">Registrarse</button>
     </form>
 </body>
 </html>
