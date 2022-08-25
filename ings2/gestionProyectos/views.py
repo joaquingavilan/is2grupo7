@@ -50,6 +50,7 @@ def salida(request):
     logout(request)
     return redirect('home')
     pass
+# revision de codigo
 
 def seguridad(request):
     return render(request,"seguridad/seguridad.html")
