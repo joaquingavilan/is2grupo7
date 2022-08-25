@@ -44,7 +44,58 @@ def ingreso(request):
             return redirect('home')
 
     return render(request, "login/ingreso.html")
+
+
 def salida(request):
     logout(request)
     return redirect('home')
     pass
+
+def seguridad(request):
+    return render(request,"seguridad/seguridad.html")
+
+
+def inicio(request):
+    return render(request,"login/index.html")
+
+def add_usuario(request):
+
+    if request.method== "POST":
+        nombre = request.POST['nombre']
+        apellido = request.POST['apellido']
+        correo = request.POST['correo']
+        usuario = request.POST['usuario']
+        contrasena = request.POST['contrasena']
+        contrasena2 = request.POST['contrasena2']
+
+        user = User.objects.create_user(usuario,correo,contrasena)
+        user.first_name = nombre
+        user.last_name = apellido
+
+        user.save()
+
+        return redirect('add_usuario')
+    return render(request, "seguridad/add_usuario.html")
+
+
+def mod_usuario(request):
+    
+    if request.method== "POST":
+        nombre = request.POST['nombre']
+        apellido = request.POST['apellido']
+        correo = request.POST['correo']
+        usuario = request.POST['usuario']
+        contrasena = request.POST['contrasena']
+        contrasena2 = request.POST['contrasena2']
+
+        user = User.objects.create_user(usuario,correo,contrasena)
+        user.first_name = nombre
+        user.last_name = apellido
+
+        user.save()
+
+        return redirect('mod_usuario')
+    return render(request, "seguridad/mod_usuario.html")
+
+
+
