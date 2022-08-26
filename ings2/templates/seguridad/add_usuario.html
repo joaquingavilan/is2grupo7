@@ -13,6 +13,7 @@
     <title>Registro</title>
 </head>
 <body>
+
     {% block javascript %} 
     <script
       src="https://code.jquery.com/jquery-3.3.1.min.js"
@@ -31,6 +32,7 @@
     });
     </script>
     {% endblock javascript %}
+
     <h3 align="center">Crear Usuario</h3>
     <form action="/add_usuario" align="center" method="post">
         {% csrf_token %}
