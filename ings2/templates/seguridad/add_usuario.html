@@ -36,15 +36,6 @@
     <h3 align="center">Crear Usuario</h3>
     <form action="/add_usuario" align="center" method="post">
         {% csrf_token %}
-        <label for="" style="font-size:20px">Nombre</label>
-        <input type="text" style="font-size:20px" id="nombre" name="nombre" placeholder="Ingresa tu nombre" required>
-        <br>
-        <label for="" style="font-size:20px">Apellido</label>
-        <input type="text" style="font-size:20px" id="apellido" name="apellido" placeholder="Ingresa tu apellido" required>
-        <br>
-        <label for="" style="font-size:20px">Correo</label>
-        <input type="email" style="font-size:20px" id="correo" name="correo" placeholder="Ingresa tu direccion de correo" required>
-        <br>
         <label for="" style="font-size:20px">Usuario</label>
         <input type="text" style="font-size:20px" id="usuario" name="usuario" placeholder="Ingresa un nombre de usuario" required>
         <br>
