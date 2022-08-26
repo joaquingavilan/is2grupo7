@@ -6,15 +6,15 @@ from django.contrib.auth.models import User
 
 class Usuario(models.Model):
     # no se necesita id pues es generado automaticamente como primary key e incremental
-    nombre = models.CharField(User.username)
-    contrasena = models.CharField(User.password)
+    nombre = models.CharField(max_length=50)
+    contrasena = models.CharField(max_length=50)
 
     def __str__(self):
-        return self.id
+        return self.nombre
 
 
 class Formulario(models.Model):
-    nombre = models.CharField()
+    nombre = models.CharField(max_length=50)
 
 
 class Permiso(models.Model):
@@ -23,16 +23,16 @@ class Permiso(models.Model):
         PROY = "PROYECTO", "Proyecto"
         DASH = "DASHBOARD", "Dashboard"
 
-    nombre = models.CharField()
-    modulo = models.CharField(choices=Modulos.choices)
-    id_formulario = models.ForeignKey(Formulario)
+    nombre = models.CharField(max_length=50)
+    modulo = models.CharField(choices=Modulos.choices, max_length=50)
+    id_formulario = models.ForeignKey(Formulario, on_delete=models.CASCADE)
 
 
 class Rol(models.Model):
-    nombre = models.CharField()
-    id_permiso = models.ForeignKey(Permiso)
+    nombre = models.CharField(max_length=50)
+    id_permiso = models.ForeignKey(Permiso, on_delete=models.CASCADE)
 
 
 class UsuarioRol(models.Model):
-    id_usuario = models.ForeignKey(Usuario)
-    id_rol = models.ForeignKey(Rol)
+    id_usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    id_rol = models.ForeignKey(Rol, on_delete=models.CASCADE)
