@@ -2,10 +2,10 @@
 <html lang="en">
 {% load materializecss %}
 <head>
-        {% block css %}
-          <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.1/css/materialize.min.css" integrity="sha256-qj3p6P1fJIV+Ndv7RW1ovZI2UhOuboj9GcODzcNFIN8=" crossorigin="anonymous" />
-        {% endblock css %}
+    {% block css %}
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.1/css/materialize.min.css" integrity="sha256-qj3p6P1fJIV+Ndv7RW1ovZI2UhOuboj9GcODzcNFIN8=" crossorigin="anonymous" />
+    {% endblock css %}
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -32,27 +32,25 @@
     </script>
     {% endblock javascript %}
     <h3 align="center">Modificar Usuario</h3>
-    <form action="/add_usuario" align="center" method="post">
-        {% csrf_token %}
-        <label for="" style="font-size:20px">Nombre</label>
-        <input type="text" style="font-size:20px" id="nombre" name="nombre" placeholder="Ingresa tu nombre" required>
-        <br>
-        <label for="" style="font-size:20px">Apellido</label>
-        <input type="text" style="font-size:20px" id="apellido" name="apellido" placeholder="Ingresa tu apellido" required>
-        <br>
-        <label for="" style="font-size:20px">Correo</label>
-        <input type="email" style="font-size:20px" id="correo" name="correo" placeholder="Ingresa tu direccion de correo" required>
-        <br>
-        <label for="" style="font-size:20px">Usuario</label>
-        <input type="text" style="font-size:20px" id="usuario" name="usuario" placeholder="Ingresa un nombre de usuario" required>
-        <br>
-        <label for="" style="font-size:20px">Contraseña</label>
-        <input type="password" style="font-size:20px" id="contrasena" name="contrasena" placeholder="Ingresa una contraseña" required>
-        <br>
-        <label for="" style="font-size:20px">Confirmar contraseña</label>
-        <input type="password" style="font-size:20px" id="contrasena2" name="contrasena2" placeholder="Confirma tu contraseña" required>
-        <br>
-        <button type="submit"  class="waves-effect waves light btn-large">Modificar</button>
+    <br><br>
+    <form align="center">
+        <h5>Seleccione el usuario a modificar</h5>
+        <select>
+            <option selected disabled="true"></option>
+            {% for result in Usuario%}
+            <option>{{result.username}}</option>
+            {% endfor %}
+        </select>
+        <br><br>
+        <h5>Modificar nombre de usuario</h5>
+        <input type="text" id="usuario" name="usuario" placeholder="Ingresa el nuevo nombre de usuario" required>
+        <button type="submit" class="waves-effect waves light btn-large">Cambiar nombre de usuario</button>
+        <br><br>
+        <h5>Modificar contraseña</h5>
+        <input type="text" id="contrasena" name="contrasena" placeholder="Ingresa la nueva contraseña" required>
+        <button type="submit" class="waves-effect waves light btn-large">Cambiar contraseña</button>
     </form>
+
+
 </body>
 </html>
