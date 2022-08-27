@@ -76,3 +76,8 @@ def add_usuario(request):
 def mod_usuario(request):
     mostrar_usuarios = User.objects.all()
     return render(request, 'seguridad/mod_usuario.html', {"Usuario": mostrar_usuarios})
+
+
+def del_usuario(request):
+    mostrar_usuarios = User.objects.all()
+    return render(request, 'seguridad/del_usuario.html', {"Usuario": mostrar_usuarios}) #

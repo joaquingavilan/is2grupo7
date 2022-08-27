@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+{% load materializecss %}
+<head>
+    {% block css %}
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.1/css/materialize.min.css" integrity="sha256-qj3p6P1fJIV+Ndv7RW1ovZI2UhOuboj9GcODzcNFIN8=" crossorigin="anonymous" />
+    {% endblock css %}
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Eliminar</title>
+</head>
+<body>
+    {% block javascript %}
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.min.js"
+      integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+      crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.1/js/materialize.min.js" integrity="sha256-SrBfGi+Zp2LhAvy9M1bWOCXztRU9Ztztxmu5BcYPcPE=" crossorigin="anonymous"></script>
+
+    <script>
+    $(document).ready(function(){
+
+      // Initialize materialize data picker
+      $('.datepicker').datepicker({'format': 'yyyy-mm-dd'});
+      $('select').formSelect();
+
+    });
+    </script>
+    {% endblock javascript %}
+    <h3 align="center">Eliminar Usuario</h3>
+    <br><br>
+    <form align="center">
+        <h5>Seleccione el usuario a eliminar</h5>
+        <select>
+            <option selected disabled="true"></option>
+            {% for result in Usuario%}
+            <option>{{result.username}}</option>
+            {% endfor %}
+        </select>
+        <br><br>
+        <button type="submit" class="waves-effect waves light btn-large">Eliminar Usuario</button>
+        <br><br><br>
+        <button type="submit" class="btn waves-effect waves"><a style="color:white;" href="seguridad">Atras</a> </button>
+    </form>
+
+
+</body>
+</html>
