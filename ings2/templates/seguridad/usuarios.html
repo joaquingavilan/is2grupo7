@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>gestion_usuarios</title>
+</head>
+<body>
+    <h4>GESTION DE USUARIOS</h4><br>
+
+    <form action='/busq_usuarios' method='GET'>
+        <input  id="busqueda" type="text" name="busq_usuario"  placeholder="Buscar usuario por nombre" />
+        <input type="submit"/>
+    </form>
+    <br>
+
+<style type="text/css">
+.tg  {border-collapse:collapse;border-spacing:0;}
+.tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+  overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+  font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg .tg-1wig{font-weight:bold;text-align:left;vertical-align:top}
+</style>
+<table class="tg">
+<thead>
+    <th>Id de Usuario</th>
+    <th>Nombre de Usuario</th>
+    <th>Rol del Usuario</th>
+    {% block content %}
+    {% for us in lista_usuarios %}
+    <tr>
+        <td> {{us.id}} </td>
+        <td> {{us.nombre}} </td>
+        <td>-</td>
+        <br>
+    </tr>
+    {% endfor %}
+    {% endblock %}
+</thead>
+</table>
+    <br><br><br>
+    <button type="submit"><a href="add_usuario">Crear Usuario</a> </button><br><br><br>
+    <button type="submit"><a href="seguridad">Atrás</a> </button>
+
+
+
+
+
+</body>
+</html>

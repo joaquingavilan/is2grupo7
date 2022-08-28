@@ -4,25 +4,12 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from gestionProyectos import models
+from django.http import JsonResponse
+
 
 # Create your views here.
 def home(request):
     return render(request, "login/index.html")
-
-
-def registro(request):
-    if request.method == "POST":
-        usuario = request.POST['usuario']
-        contrasena = request.POST['contrasena']
-        contrasena2 = request.POST['contrasena2']
-        u = models.Usuario(nombre=usuario, contrasena=contrasena)  # se guarda el usuario en la tabla Usuario, creada en el modelo
-        u.save()
-
-        user = User.objects.create_user(username=usuario, password=contrasena)
-        user.save()                                                # se guarda en la tabla auth_user, propia de django
-
-        return redirect('ingreso')
-    return render(request, "login/registro.html")
 
 
 def ingreso(request):
@@ -55,8 +42,32 @@ def seguridad(request):
     return render(request, "seguridad/seguridad.html")
 
 
+def gestion_usuarios(request):
+    lista_usuarios =models.Usuario.objects.all()
+    lista_roles = models.UsuarioRol.objects.all()
+    contexto = {
+        "lista_usuarios": lista_usuarios,
+        "usuario_rol": lista_roles
+    }
+    return render(request, "seguridad/usuarios.html", contexto)
+
+
+def busq_usuarios(request):
+    query_dict = request.GET.get("busq_usuario")
+    usuario_encontrado = None
+    if query_dict is not None:
+        usuario_encontrado = models.Usuario.objects.get(nombre=query_dict)
+    my_context = {
+        "usuario": usuario_encontrado
+        #"contexto": 123
+    }
+    return render(request, "seguridad/buscar_usuario.html", my_context)
+
+
 def inicio(request):
     return render(request, "login/index.html")
+
+
 
 
 def add_usuario(request):
