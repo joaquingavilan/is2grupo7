@@ -36,3 +36,4 @@ class Rol(models.Model):
 class UsuarioRol(models.Model):
     id_usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     id_rol = models.ForeignKey(Rol, on_delete=models.CASCADE)
+

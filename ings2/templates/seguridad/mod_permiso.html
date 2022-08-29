@@ -1,0 +1,32 @@
+    {% extends "seguridad/permisos.html" %}
+    {% block content %}
+    <tr>
+        <td> {{ permiso.modulo }} </td>
+        <td> {{ permiso.id }} </td>
+        <td> {{ permiso.nombre }} </td>
+        <td> {{ permiso.id_formulario.id }}  -  {{ permiso.id_formulario.nombre }}</td>
+        <br>
+    </tr>
+    <br>
+    <form action="/cambiar_permiso" align="center" method="post">
+        {% csrf_token %}
+        <input type="hidden" id="id_cambio" name="id_cambio" value={{ permiso.id }}>
+        <label for="" style="font-size:20px">Ingrese el nuevo nombre del permiso</label>
+        <input type="text" style="font-size:20px" id="nombre" name="nombre" placeholder={{ permiso.nombre }}>
+        <br>
+        <label for="" style="font-size:20px">Seleccione el modulo del permiso</label>
+        <select name="modulo">
+            <option>Seguridad</option>
+            <option>Proyecto</option>
+            <option>Dashboard</option>
+        </select>
+        <br>
+        <label for="" style="font-size:20px">Seleccione el formulario al que corresponde</label>
+        <select name="formulario">
+            {% for formu in formularios %}
+            <option>{{ formu }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit" class="waves-effect waves light btn-large">Modificar</button>
+    </form>
+    {% endblock %}
