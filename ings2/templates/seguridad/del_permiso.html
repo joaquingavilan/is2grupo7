@@ -1,0 +1,20 @@
+    {% extends "seguridad/permisos.html" %}
+    {% block content %}
+    <h3>Permiso a eliminar:</h3>
+    <tr>
+        <td> {{ permiso.id }} </td>
+        <td> {{ permiso.modulo }} </td>
+        <td> {{ permiso.nombre }} </td>
+        <td> {{ permiso.id_formulario.id }}  -  {{ permiso.id_formulario.nombre }}</td>
+        <br>
+    </tr>
+    </thead>
+</table>
+    <h4>¿Está seguro de eliminar el permiso? La operación no podrá ser anulada posteriormente</h4>
+    <form action="/eliminar_permiso" method="post">
+        {% csrf_token %}
+        <input type="hidden" id="id_elim" name="id_elim" value={{ permiso.id }}>
+        <button type="submit">Eliminar</button><br>
+    </form>
+    <br><button type="submit"><a href="gestion_permisos">Atrás</a> </button>
+    {% endblock %}

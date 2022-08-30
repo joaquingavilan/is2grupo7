@@ -1,32 +1,37 @@
     {% extends "seguridad/permisos.html" %}
     {% block content %}
+    <h3>Permiso a modificar:</h3>
     <tr>
-        <td> {{ permiso.modulo }} </td>
         <td> {{ permiso.id }} </td>
+        <td> {{ permiso.modulo }} </td>
         <td> {{ permiso.nombre }} </td>
         <td> {{ permiso.id_formulario.id }}  -  {{ permiso.id_formulario.nombre }}</td>
         <br>
     </tr>
+    </thead>
+</table>
+
     <br>
-    <form action="/cambiar_permiso" align="center" method="post">
+    <form action="/cambiar_permiso" method="post">
         {% csrf_token %}
         <input type="hidden" id="id_cambio" name="id_cambio" value={{ permiso.id }}>
-        <label for="" style="font-size:20px">Ingrese el nuevo nombre del permiso</label>
-        <input type="text" style="font-size:20px" id="nombre" name="nombre" placeholder={{ permiso.nombre }}>
+        <label for="" style="font-size:20px">Modificar nombre</label>
+        <input type="text" style="font-size:20px" id="nombre" name="nombre" placeholder={{ permiso.nombre }} value={{ permiso.nombre }} >
         <br>
-        <label for="" style="font-size:20px">Seleccione el modulo del permiso</label>
+        <label for="" style="font-size:20px">Cambiar módulo</label>
         <select name="modulo">
             <option>Seguridad</option>
             <option>Proyecto</option>
             <option>Dashboard</option>
         </select>
         <br>
-        <label for="" style="font-size:20px">Seleccione el formulario al que corresponde</label>
+        <label for="" style="font-size:20px">Cambiar de formulario</label>
         <select name="formulario">
-            {% for formu in formularios %}
-            <option>{{ formu }}</option>
+            {% for formu in formulario %}
+            <option>{{ formu.id }} - {{formu.nombre}}</option>
             {% endfor %}
         </select>
-        <button type="submit" class="waves-effect waves light btn-large">Modificar</button>
+        <button type="submit">Modificar</button>
     </form>
-    {% endblock %}
+    <button type="submit"><a href="gestion_permisos">Atrás</a> </button>
+{% endblock %}

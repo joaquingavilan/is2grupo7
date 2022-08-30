@@ -5,49 +5,36 @@
     <title>Gestion de Permisos</title>
 </head>
 <body>
-    <h4>GESTION DE PERMISOS</h4><br>
-
-<style type="text/css">
-.tg  {border-collapse:collapse;border-spacing:0;}
-.tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
-  overflow:hidden;padding:10px 5px;word-break:normal;}
-.tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
-  font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
-.tg .tg-1wig{font-weight:bold;text-align:left;vertical-align:top}
-</style>
-<table class="tg">
-<thead>
-    <th>Modulo del permiso</th>
-    <th>Id del permiso</th>
-    <th>Nombre del permiso</th>
-    <th>Formularios asociados</th>
-    {% block content %}
-    <th>Acciones</th>
-    {% for permiso in lista_permisos %}
+    <h1>GESTION DE PERMISOS</h1>
+    <table>
+    <thead>
+        <th>ID del permiso</th>
+        <th>Modulo del permiso</th>
+        <th>Nombre del permiso</th>
+        <th>Formularios asociados</th>
+        {% block content %}
+        <th>Acciones</th>
+    </thead>
+        {% for permiso in lista_permisos %}
     <tr>
-        <td> {{ permiso.modulo }}</td>
-        <td> {{ permiso.id }} </td>
+        <td> {{ permiso.id }}</td>
+        <td> {{ permiso.modulo }} </td>
         <td> {{ permiso.nombre }} </td>
         <td> {{ permiso.id_formulario.id }}  -  {{ permiso.id_formulario.nombre }}</td>
-        <td> <form action="/mod_permiso" method="GET">
+        <td> <form action="/alterar_permiso" method="POST">
             {% csrf_token %}
              <input type="hidden" id="permis" name="permis" value={{ permiso.id }}>
-            <button type="submit">Modificar</button>
+            <button type="submit" name="mod">Modificar</button>
+            <button type="submit" name="del">Eliminar</button>
             </form>
         </td>
         <br>
     </tr>
-    {% endfor %}
-{% endblock %}
-</thead>
-</table>
+        {% endfor %}
+    </table>
     <br><br><br>
     <button type="submit"><a href="add_permiso">Crear Permiso</a> </button><br><br><br>
     <button type="submit"><a href="seguridad">Atrás</a> </button>
-
-
-
-
-
+{% endblock %}
 </body>
 </html>

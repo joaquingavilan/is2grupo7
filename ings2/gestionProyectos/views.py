@@ -69,22 +69,20 @@ def gestion_permisos(request):
     }
     return render(request, "seguridad/permisos.html", contexto)
 
+
 def busq_usuarios(request):
     query_dict = request.GET.get("busq_usuario")
     usuario_encontrado = None
     if query_dict is not None:
         usuario_encontrado = models.Usuario.objects.get(nombre=query_dict)
-    my_context = {
+    contexto = {
         "usuario": usuario_encontrado
-        #"contexto": 123
     }
-    return render(request, "seguridad/buscar_usuario.html", my_context)
+    return render(request, "seguridad/buscar_usuario.html", contexto)
 
 
 def inicio(request):
     return render(request, "login/index.html")
-
-
 
 
 def add_usuario(request):
@@ -99,6 +97,7 @@ def add_usuario(request):
 
         return redirect('seguridad')
     return render(request, "seguridad/add_usuario.html")
+
 
 def add_permiso(request):
     if request.method == "POST":
@@ -133,30 +132,40 @@ def mod_usuario(request):
     return render(request, 'seguridad/mod_usuario.html', {"Usuario": mostrar_usuarios})
 
 
-def mod_permiso(request):
+def alterar_permiso(request):
+    formularios = models.Formulario.objects.all()
     if request.method == "POST":
-        id_seleccionado = request.GET['permis']
+        id_seleccionado = request.POST['permis']
         permiso_filtrado = models.Permiso.objects.get(id=id_seleccionado)
-        return render(request, "seguridad/mod_permiso.html", {"permiso": permiso_filtrado})
+        if "mod" in request.POST:
+            return render(request, "seguridad/mod_permiso.html",
+                          {"permiso": permiso_filtrado, "formulario": formularios})
+        elif "del" in request.POST:
+            return render(request, "seguridad/del_permiso.html",
+                          {"permiso": permiso_filtrado, "formulario": formularios})
     return render(request, "seguridad/mod_permiso.html")
 
 
 def cambiar_permiso(request):
     if request.method == "POST":
-        permiso = models.Permiso.objects.get(id=id_guardado)
-        nombre = request.POST.get('nombre', False)
-        modulo = request.POST.get('modulo',False)
-        id1 = request.POST.get('formulario'[0],False)
-        if models.Formulario.objects.exists():
-            formulario = models.Formulario.objects.get(id=int(id1))
-        permiso = models.Permiso(nombre=nombre, modulo=modulo, id_formulario=formulario)
-        permiso.save()
-        return redirect('seguridad/permisos.html')
+        id_form = int(request.POST['formulario'][0])
+        models.Permiso.objects.filter(id=(request.POST['id_cambio'])).update(nombre=request.POST['nombre'],
+                                                                             modulo=request.POST['modulo'],
+                                                                             id_formulario=models.Formulario.objects.get(id=id_form))
+        return redirect('gestion_permisos')
+    return render(request, "seguridad/permisos.html")
+
+
+def eliminar_permiso(request):
+    if request.method == "POST":
+        models.Permiso.objects.filter(id=(request.POST['id_elim'])).delete()
+        return redirect('gestion_permisos')
     return render(request, "seguridad/permisos.html")
 
 def del_usuario(request):
     mostrar_usuarios = User.objects.all()
     return render(request, 'seguridad/del_usuario.html', {"Usuario": mostrar_usuarios}) #
+
 
 def crear_formularios():
     nombres = ["Crear Usuario", "Crear Permiso", "Crear Rol", "Modificar Usuario", "Modificar Rol", "Modificar Permiso",
