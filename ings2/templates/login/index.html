@@ -1,5 +1,8 @@
 <!doctype html>
 <html lang="en">
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
 {% load materializecss %}
 <head>
     {% block css %}
@@ -43,19 +46,23 @@
 
 
     {% if user.is_authenticated %}
-    <div class="center">
-    <h3>Bienvenido {{nombre}}</h3>
-    <h4>Has ingresado correctamente</h4> <br>
-    <button type="submit" class="btn waves-effect waves btn-large"><a style="color:white;" href="seguridad">Modulo de Seguridad</a> </button>
-    <button type="submit" class="btn waves-effect waves btn-large"><a style="color:white;" href="#">Modulo de Proyectos</a> </button>
-    <button type="submit" class="btn waves-effect waves btn-large"><a style="color:white;" href="#">Modulo de Dashboards</a> </button>
-    <button type="submit" class="btn waves-effect waves"><a style="color:white;" href="/salida">Salir</a> </button>
+    <div class="container py-4">
+      <div class="card container py-4"  align="center">
+      <h3>Bienvenido {{nombre}}</h3>
+      <h4>Has ingresado correctamente</h4> <br>
+      <button type="submit" class="btn waves-effect waves btn-large"><a style="color:white;" href="seguridad">Modulo de Seguridad</a> </button>
+      <button type="submit" class="btn waves-effect waves btn-large"><a style="color:white;" href="#">Modulo de Proyectos</a> </button>
+      <button type="submit" class="btn waves-effect waves btn-large"><a style="color:white;" href="#">Modulo de Dashboards</a> </button>
+      <button type="submit" class="btn waves-effect waves"><a style="color:white;" href="/salida">Salir</a> </button>
+    </div>
     </div>
 
     {% else %}
-    <div class="center">
-    <h3>Bienvenido al sistema</h3> <br>
-    <button type="submit" class="btn waves-effect waves btn-large"><a style="color:white" href="/ingreso">Ingresar</a></button>
+    <div class="container py-4">
+      <div class="card container py-4"  align="center">
+        <h3>Bienvenido al sistema</h3> <br>
+        <button type="submit" class="btn waves-effect waves btn-large"><a style="color:white" href="/ingreso">Ingresar</a></button>
+      </div>
     </div>
     {% endif %}
 

@@ -32,9 +32,11 @@
     });
     </script>
     {% endblock javascript %}
-
-    <h3 align="center">Crear Usuario</h3>
-    <form action="/add_usuario" align="center" method="post">
+    <div class="container py-4"> 
+      <div class="card container teal py-4" align="center">
+        <h2 style="color:white">Crear Usuario</h2>
+      </div>
+    <form class="card container text center" align="center"action="/add_usuario" method="post">
         {% csrf_token %}
         <label for="" style="font-size:20px">Usuario</label>
         <input type="text" style="font-size:20px" id="usuario" name="usuario" placeholder="Ingresa un nombre de usuario" required>
@@ -47,5 +49,6 @@
         <br>
         <button type="submit" class="waves-effect waves light btn-large">Registrar</button>
     </form>
+    </div>
 </body>
 </html>

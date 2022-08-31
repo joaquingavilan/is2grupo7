@@ -1,11 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-    <form action="/add_permiso" align="center" method="post">
+    <div class="container py-4">
+        <div class="card container teal py-4" align="center">
+          <h2 style="color:black">Crear Permiso</h2>
+        </div>
+    <form class="card container text" align="center" action="/add_permiso" method="post">
         {% csrf_token %}
         <label for="" style="font-size:20px">Ingrese el nombre del permiso</label>
         <input type="text" style="font-size:20px" id="nombre" name="nombre" placeholder="Ingrese el nombre del permiso" required>
@@ -23,7 +30,9 @@
             <option>{{ formu }}</option>
             {% endfor %}
         </select>
+        <br><br>
         <button type="submit" class="waves-effect waves light btn-large">Registrar</button>
     </form>
+    </div>
 </body>
 </html>
