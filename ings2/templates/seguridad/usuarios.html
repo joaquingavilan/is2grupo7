@@ -35,13 +35,23 @@
 <thead>
     <th>Id de Usuario</th>
     <th>Nombre de Usuario</th>
+    <th>Clave del Usuario</th>
     <th>Rol del Usuario</th>
     {% block content %}
+    <th>Acciones</th>
     {% for us in lista_usuarios %}
     <tr>
         <td> {{us.id}} </td> 
         <td> {{us.nombre}} </td>
-        <td>-</td>
+        <td> {{us.contrasena}} </td>
+        <td> -</td>
+        <td> <form action="/alterar_usuario" method="POST">
+                {% csrf_token %}
+                <input type="hidden" id="user" name="user" value={{ us.id }}>
+                <button type="submit" name="mod">Modificar</button>
+                <button type="submit" name="del">Eliminar</button>
+                </form>
+            </td>
         <br>
     </tr>
     {% endfor %}

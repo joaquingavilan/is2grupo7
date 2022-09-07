@@ -45,7 +45,7 @@ def seguridad(request):
 
 
 def gestion_usuarios(request):
-    lista_usuarios =models.Usuario.objects.all()
+    lista_usuarios = models.Usuario.objects.all()
     lista_roles = models.UsuarioRol.objects.all()
     contexto = {
         "lista_usuarios": lista_usuarios,
@@ -56,6 +56,7 @@ def gestion_usuarios(request):
 
 def gestion_roles(request):
     lista_roles = models.Rol.objects.all()
+
     contexto = {
         "lista_roles": lista_roles
     }
@@ -116,15 +117,18 @@ def add_permiso(request):
 
 
 def add_rol(request):
-    if request.method == "GET":
+
+    if request.method == "POST":
         nombre = request.POST['nombre']
-        id_permiso = request.POST['permiso']
-        rol = models.Rol(nombre=nombre, id_permiso=id_permiso)
+        permisos = request.POST.getlist('permisos')
+        rol = models.Rol(nombre=nombre)
         rol.save()
+        for perm in permisos:
+            permiso = models.Permiso.objects.get(id=perm)
+            rol.permisos.add(permiso)
         return redirect('seguridad')
-    elif request.method =="POST":
-        pass
-    return render(request, "seguridad/add_rol.html")
+    permisos = models.Permiso.objects.all()
+    return render(request, "seguridad/add_rol.html", {"permisos": permisos})
 
 
 def mod_usuario(request):
@@ -144,6 +148,23 @@ def alterar_permiso(request):
             return render(request, "seguridad/del_permiso.html",
                           {"permiso": permiso_filtrado, "formulario": formularios})
     return render(request, "seguridad/mod_permiso.html")
+
+
+def alterar_usuario(request):
+
+    if request.method == "POST":
+
+        id_seleccionado = request.POST['user']
+        rol_user = models.Rol.objects.get(id_usuario=id_seleccionado)
+        rol = rol_user.id_rol
+        usuario_filtrado = models.Usuario.objects.get(id=id_seleccionado)
+        if "mod" in request.POST:
+            return render(request, "seguridad/mod_usuario.html",
+                          {"usuario": usuario_filtrado, "rol": rol})
+        elif "del" in request.POST:
+            return render(request, "seguridad/del_usuario.html",
+                          {"usuario": usuario_filtrado, "rol": rol})
+    return render(request, "seguridad/mod_usuario.html")
 
 
 def cambiar_permiso(request):

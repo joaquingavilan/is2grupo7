@@ -30,7 +30,7 @@ class Permiso(models.Model):
 
 class Rol(models.Model):
     nombre = models.CharField(max_length=50)
-    id_permiso = models.ForeignKey(Permiso, on_delete=models.CASCADE)
+    permisos = models.ManyToManyField(Permiso)
 
 
 class UsuarioRol(models.Model):

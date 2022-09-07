@@ -32,11 +32,18 @@
         <th>Nombre del rol</th>
         <th>Permisos asociados</th>
         {% block content %}
+        <th>Acciones</th>
         {% for rol in lista_roles %}
         <tr>
             <td> {{rol.id}} </td>
             <td> {{rol.nombre}} </td>
-            <td> {{rol.id_permiso}}</td>
+            <td>{%for perm in rol.permisos.all%}
+            {{perm.id}}-{{perm.nombre}}&nbsp&nbsp&nbsp
+            {% endfor %}</td>
+            <td>
+            <button type="submit" name="mod">Modificar</button>
+            <button type="submit" name="del">Eliminar</button>
+            </td>
             <br>
         </tr>
         {% endfor %}
