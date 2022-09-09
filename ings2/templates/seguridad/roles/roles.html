@@ -33,22 +33,26 @@
         <th>Permisos asociados</th>
         {% block content %}
         <th>Acciones</th>
-        {% for rol in lista_roles %}
-        <tr>
-            <td> {{rol.id}} </td>
-            <td> {{rol.nombre}} </td>
-            <td>{%for perm in rol.permisos.all%}
-            {{perm.id}}-{{perm.nombre}}&nbsp&nbsp&nbsp
-            {% endfor %}</td>
-            <td>
-            <button type="submit" name="mod">Modificar</button>
-            <button type="submit" name="del">Eliminar</button>
-            </td>
-            <br>
-        </tr>
-        {% endfor %}
-        {% endblock %}
     </thead>
+        {% for rol in lista_roles %}
+            <tr>
+                <td> {{rol.id}} </td>
+                <td> {{rol.nombre}} </td>
+                <td>
+                    {%for perm in rol.permisos.all%}
+                        {{perm.id}}-{{perm.nombre}}&nbsp&nbsp&nbsp
+                    {% endfor %}</td>
+                <td>
+                    <form action="/alterar_rol" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" id="rol" name="rol" value={{ rol.id }}>
+                        <button type="submit" name="mod">Modificar</button>
+                        <button type="submit" name="del">Eliminar</button>
+                    </form>
+                </td>
+                <br>
+            </tr>
+        {% endfor %}
     </table>
 </div>
 
@@ -57,10 +61,6 @@
     <button type="submit"><a href="add_rol">Crear Rol</a> </button><br><br><br>
     <button type="submit"><a href="seguridad">Atrás</a> </button>
 </div>
-
-
-
-
-
+{% endblock %}
 </body>
 </html>

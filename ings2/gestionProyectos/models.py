@@ -4,13 +4,7 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 
-class Usuario(models.Model):
-    # no se necesita id pues es generado automaticamente como primary key e incremental
-    nombre = models.CharField(max_length=50)
-    contrasena = models.CharField(max_length=50)
 
-    def __str__(self):
-        return self.nombre
 
 
 class Formulario(models.Model):
@@ -32,8 +26,13 @@ class Rol(models.Model):
     nombre = models.CharField(max_length=50)
     permisos = models.ManyToManyField(Permiso)
 
+class Usuario(models.Model):
+    # no se necesita id pues es generado automaticamente como primary key e incremental
+    nombre = models.CharField(max_length=50)
+    contrasena = models.CharField(max_length=50)
+    rol = models.ForeignKey(Rol, on_delete=models.CASCADE)
 
-class UsuarioRol(models.Model):
-    id_usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
-    id_rol = models.ForeignKey(Rol, on_delete=models.CASCADE)
+    def __str__(self):
+        return self.nombre
+
 

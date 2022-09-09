@@ -1,0 +1,29 @@
+ {% extends "seguridad/usuarios/usuarios.html" %}
+    {% block content %}
+    <h3>Usuario a modificar:</h3>
+    <tr>
+        <td> {{ usuario.id }} </td>
+        <td> {{ usuario.nombre }} </td>
+        <td> {{ usuario.contrasena }} </td>
+        <td> {{ usuario.rol.nombre }} </td>
+    </tr>
+</table>
+ <form action="/cambiar_usuario" method="post">
+        {% csrf_token %}
+        <input type="hidden" id="id_cambio" name="id_cambio" value={{ usuario.id }}>
+        <label for="" style="font-size:20px">Modificar nombre</label>
+        <input type="text" style="font-size:20px" id="nombre" name="nombre" placeholder={{ usuario.nombre }} value={{ usuario.nombre }} >
+        <br>
+        <label for="" style="font-size:20px">Modificar contraseña</label>
+        <input type="text" style="font-size:20px" id="contrasena" name="contrasena" placeholder={{ usuario.contrasena }} value={{ usuario.contrasena }} >
+        <br>
+        <label for="" style="font-size:20px">Cambiar de rol</label>
+        <select name="rol">
+            {% for rol in roles %}
+            <option value={{rol.id}}> {{rol.nombre}} </option>
+            {% endfor %}
+        </select>
+        <button type="submit">Modificar</button>
+    </form>
+    <button type="submit"><a href="gestion_usuarios">Atrás</a> </button>
+ {% endblock %}

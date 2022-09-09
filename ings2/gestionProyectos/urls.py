@@ -16,7 +16,12 @@ urlpatterns = [
     path('add_permiso', views.add_permiso, name="add_permiso"),
     path('mod_usuario', views.mod_usuario, name="mod_usuario"),
     path('alterar_permiso', views.alterar_permiso, name="alterar_permiso"),
-    path('cambiar_permiso',views.cambiar_permiso, name="cambiar_permiso"),
-    path('eliminar_permiso',views.eliminar_permiso, name="eliminar_permiso"),
-    path('del_usuario', views.del_usuario, name="del_usuario")
+    path('alterar_rol', views.alterar_rol, name="alterar_rol"),
+    path('alterar_usuario', views.alterar_usuario, name="alterar_usuario"),
+    path('cambiar_permiso', views.cambiar_permiso, name="cambiar_permiso"),
+    path('cambiar_rol', views.cambiar_rol, name="cambiar_rol"),
+    path('cambiar_usuario', views.cambiar_usuario, name="cambiar_usuario"),
+    path('eliminar_permiso', views.eliminar_permiso, name="eliminar_permiso"),
+    path('eliminar_rol', views.eliminar_rol, name="eliminar_rol"),
+    path('eliminar_usuario', views.eliminar_usuario, name="eliminar_usuario")
 ]

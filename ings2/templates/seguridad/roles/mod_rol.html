@@ -1,0 +1,35 @@
+    {% extends "seguridad/roles/roles.html" %}
+    {% block content %}
+    <h3>Rol a modificar:</h3>
+    <tr>
+        <td> {{ rol.id }} </td>
+        <td> {{ rol.nombre }} </td>
+        <td>
+            {%for perm in rol.permisos.all%}
+                {{perm.id}}-{{perm.nombre}}&nbsp&nbsp&nbsp
+            {% endfor %}
+        </td>
+        <br>
+    </tr>
+    </thead>
+</table>
+
+    <br>
+    <form action="/cambiar_rol" method="post">
+        {% csrf_token %}
+        <input type="hidden" id="id_cambio" name="id_cambio" value={{ rol.id }}>
+        <label for="" style="font-size:20px">Modificar nombre</label>
+        <input type="text" style="font-size:20px" id="nombre" name="nombre" placeholder={{ rol.nombre }} value={{ rol.nombre }} >
+        <br>
+        <label for="" style="font-size:20px">Cambiar permisos asociados</label>
+        <select name="permisos" multiple>
+            {% for perm in permisos %}
+            <option value={{perm.id}}> {{perm.id}}  {{perm.nombre}} </option>
+            {% endfor %}
+        </select>
+        <br><br>
+        <button type="submit">Modificar</button>
+    </form>
+    <br>
+    <button type="submit"><a href="gestion_roles">Atrás</a> </button>
+    {% endblock %}

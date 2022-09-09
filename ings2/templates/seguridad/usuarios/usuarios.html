@@ -10,16 +10,17 @@
     <title>gestion_usuarios</title>
 </head>
 <body>
-    <div class="w3-container py-4">
+     <div class="w3-container py-4">
         <div class="card container py-4" align="center">
             <h2 style="color:black">GESTION DE USUARIOS</h2>
         </div>
         <br>
+         <!--
         <form class="container text center" action='/busq_usuarios' method='GET'>
             <input  id="busqueda" type="text" name="busq_usuario"  placeholder="Buscar usuario por nombre" />
             <input type="submit"/>
         </form>
-    </div>
+    </div>-->
     
 
 <style type="text/css">
@@ -31,33 +32,32 @@
 .tg .tg-1wig{font-weight:bold;text-align:left;vertical-align:top}
 </style>
 <div class="w3-container">
-<table class="w3-table-all w3-hoverable">
-<thead>
-    <th>Id de Usuario</th>
-    <th>Nombre de Usuario</th>
-    <th>Clave del Usuario</th>
-    <th>Rol del Usuario</th>
-    {% block content %}
-    <th>Acciones</th>
-    {% for us in lista_usuarios %}
-    <tr>
-        <td> {{us.id}} </td> 
-        <td> {{us.nombre}} </td>
-        <td> {{us.contrasena}} </td>
-        <td> -</td>
-        <td> <form action="/alterar_usuario" method="POST">
-                {% csrf_token %}
-                <input type="hidden" id="user" name="user" value={{ us.id }}>
-                <button type="submit" name="mod">Modificar</button>
-                <button type="submit" name="del">Eliminar</button>
-                </form>
-            </td>
-        <br>
-    </tr>
-    {% endfor %}
-    {% endblock %}
-</thead>
-</table>
+    <table class="w3-table-all w3-hoverable">
+    <thead>
+        <th>Id de Usuario</th>
+        <th>Nombre de Usuario</th>
+        <th>Clave del Usuario</th>
+        <th>Rol del Usuario</th>
+        {% block content %}
+        <th>Acciones</th>
+        </thead>
+        {% for us in lista_usuarios %}
+        <tr>
+            <td> {{us.id}} </td>
+            <td> {{us.nombre}} </td>
+            <td> {{us.contrasena}} </td>
+            <td> {{us.rol.nombre}} </td>
+            <td> <form action="/alterar_usuario" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" id="user" name="user" value={{ us.id }}>
+                    <button type="submit" name="mod">Modificar</button>
+                    <button type="submit" name="del">Eliminar</button>
+                    </form>
+                </td>
+            <br>
+        </tr>
+        {% endfor %}
+    </table>
 </div>
 
 <div class="w3-container">
@@ -65,6 +65,6 @@
     <button type="submit"><a href="add_usuario">Crear Usuario</a> </button><br><br>
     <button type="submit"><a href="seguridad">Atrás</a> </button>
 </div>
-
+{% endblock %}
 </body>
 </html>

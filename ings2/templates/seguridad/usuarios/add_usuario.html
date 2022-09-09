@@ -44,9 +44,13 @@
         <label for="" style="font-size:20px">Contraseña</label>
         <input type="password" style="font-size:20px" id="contrasena" name="contrasena" placeholder="Ingresa una contraseña" required>
         <br>
-        <label for="" style="font-size:20px">Confirmar contraseña</label>
-        <input type="password" style="font-size:20px" id="contrasena2" name="contrasena2" placeholder="Confirma tu contraseña" required>
-        <br>
+        <label for="" style="font-size:20px">Asigne un rol al nuevo usuario</label>
+        <select name="rol">
+            {% for rol in roles %}
+            <option value={{rol.id}}>{{ rol.nombre }}</option>
+            {% endfor %}
+        </select>
+        <br><br>
         <button type="submit" class="waves-effect waves light btn-large">Registrar</button>
     </form>
     </div>

@@ -1,0 +1,20 @@
+    {% extends "seguridad/usuarios/usuarios.html" %}
+    {% block content %}
+    <h3>Usuario a eliminar:</h3>
+    <tr>
+        <td> {{ usuario.id }} </td>
+        <td> {{ usuario.nombre }} </td>
+        <td> {{ usuario.contrasena }} </td>
+        <td> {{ usuario.rol.nombre }} </td>
+        <br>
+    </tr>
+    </thead>
+</table>
+    <h4>¿Está seguro de eliminar el permiso? La operación no podrá ser anulada posteriormente</h4>
+    <form action="/eliminar_usuario" method="post">
+        {% csrf_token %}
+        <input type="hidden" id="id_elim" name="id_elim" value={{ usuario.id }}>
+        <button type="submit">Eliminar</button><br>
+    </form>
+    <br><button type="submit"><a href="gestion_usuarios">Atrás</a> </button>
+    {% endblock %}

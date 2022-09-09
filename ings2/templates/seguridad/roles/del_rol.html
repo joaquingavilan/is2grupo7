@@ -1,0 +1,23 @@
+    {% extends "seguridad/roles/roles.html" %}
+    {% block content %}
+    <h3>Rol a eliminar:</h3>
+    <tr>
+        <td> {{ rol.id }} </td>
+        <td> {{ rol.nombre }} </td>
+        <td>
+            {%for perm in rol.permisos.all%}
+                {{perm.id}}-{{perm.nombre}}&nbsp&nbsp&nbsp
+            {% endfor %}
+        </td>
+        <br>
+    </tr>
+    </thead>
+</table>
+    <h4>¿Está seguro de eliminar el rol? Algunos usuarios podrian perder acceso a funcionalidades del sistema</h4>
+    <form action="/eliminar_rol" method="post">
+        {% csrf_token %}
+        <input type="hidden" id="id_elim" name="id_elim" value={{ rol.id }}>
+        <button type="submit">Eliminar</button><br>
+    </form>
+    <br><button type="submit"><a href="gestion_roles">Atrás</a> </button>
+    {% endblock %}
