@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Crear Proyecto</title>
+</head>
+<body>
+
+    <div class="container py-4">
+      <div class="card container teal py-4" align="center">
+        <h2 style="color:white">Crear Proyecto</h2>
+      </div>
+    <form class="card container text center" align="center"action="/add_proyecto" method="post">
+        {% csrf_token %}
+        <label for="" style="font-size:20px">Nombre del proyecto</label>
+        <input type="text" style="font-size:20px" id="nombre" name="nombre"  required>
+        <br>
+        <label for="" style="font-size:20px">Nombre del backlog</label>
+        <input type="text" style="font-size:20px" id="backlog" name="backlog" required>
+        <br>
+        <label for="" style="font-size:20px">Usuarios asignados al proyecto (Mantener CTRL)</label>
+        <select name="usuarios" multiple>
+            {% for usuario in usuarios %}
+            <option value={{usuario.id}}>{{ usuario.nombre }}</option>
+            {% endfor %}
+        </select><br>
+        <label for="" style="font-size:20px">Seleccione la fecha de inicio</label>
+        <input type="date" id="inicio" name="inicio">
+        <br><br>
+        <button type="submit" class="waves-effect waves light btn-large">Crear Proyecto</button>
+        <br><br>
+        <button type="submit"><a href="gestion_proyectos">Atrás</a> </button>
+    </form>
+    </div>
+</body>
+</html>

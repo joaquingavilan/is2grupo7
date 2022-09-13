@@ -23,5 +23,7 @@ urlpatterns = [
     path('cambiar_usuario', views.cambiar_usuario, name="cambiar_usuario"),
     path('eliminar_permiso', views.eliminar_permiso, name="eliminar_permiso"),
     path('eliminar_rol', views.eliminar_rol, name="eliminar_rol"),
-    path('eliminar_usuario', views.eliminar_usuario, name="eliminar_usuario")
+    path('eliminar_usuario', views.eliminar_usuario, name="eliminar_usuario"),
+    path('gestion_proyectos', views.gestion_proyectos, name="gestion_proyectos"),
+    path('add_proyecto', views.add_proyecto, name="add_proyecto")
 ]

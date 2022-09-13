@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Gestion de Proyectos</title>
+</head>
+<body>
+    <div class="w3-container py-4">
+        <div class="card container py-4" align="center">
+            <h2 style="color:black">GESTION DE PROYECTOS</h2>
+        </div>
+    </div>
+    <div class="w3-container">
+        <table  class="w3-table-all w3-hoverable">
+            <thead>
+                <th>Nombre del Proyecto</th>
+                <th>Fecha de Inicio</th>
+                <th>Estado</th>
+                <th>Usuarios</th>
+                <th>Acciones</th>
+            </thead>
+                {% for proyecto in lista_proyectos %}
+            <tr>
+                <td> {{ proyecto.nombre }}</td>
+                <td> {{ proyecto.fecha_inicio }} </td>
+                <td> {{ proyecto.estado }} </td>
+                <td> {% for user in proyecto.usuarios.all %}
+                        {{ user.nombre }}&nbsp&nbsp&nbsp
+                    {% endfor %}
+                </td>
+                <td> <form action="/ver_proyecto" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" id="permis" name="permis" value={{ proyecto.id }}>
+                    <button type="submit" name="mod">Ver Proyecto</button>
+                    </form>
+                </td>
+                <br>
+            </tr>
+                {% endfor %}
+        </table>
+    </div>
+    <div class="w3-container">
+        <br><br>
+        <button type="submit"><a href="add_proyecto">Crear Proyecto</a> </button><br><br><br>
+        <button type="submit"><a href="inicio">Atrás</a> </button>
+    </div>
+</body>
+</html>

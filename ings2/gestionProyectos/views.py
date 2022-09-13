@@ -237,3 +237,29 @@ def crear_formularios():
     for nombre in nombres:
         form = models.Formulario(nombre=nombre)
         form.save()
+
+
+def gestion_proyectos(request):
+    proyectos = models.Proyecto.objects.all()
+    contexto = {
+        "lista_proyectos": proyectos
+    }
+    return render(request, 'proyecto/proyectos.html', contexto)
+
+
+def add_proyecto(request):
+    usuarios = models.Usuario.objects.all()
+    if request.method == 'POST':
+        nombre = request.POST['nombre']
+        nombre_backlog = request.POST['backlog']
+        fecha_inicio = request.POST['inicio']
+        proyecto = models.Proyecto(nombre=nombre, fecha_inicio=fecha_inicio)
+        proyecto.save()
+        usuarios = request.POST.getlist('usuarios')
+        for user in usuarios:
+            us = models.Usuario.objects.get(id=user)
+            proyecto.usuarios.add(us)
+        backlog = models.Backlog(nombre=nombre_backlog, proyecto=proyecto)
+        backlog.save()
+        return redirect(gestion_proyectos)
+    return render(request, 'proyecto/add_proyecto.html', {"usuarios": usuarios})
