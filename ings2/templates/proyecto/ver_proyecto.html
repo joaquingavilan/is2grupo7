@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ver Proyecto</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+</head>
+<body>
+    <div class="w3-container py-4">
+        <div class="card container py-4" align="center">
+            <h2 style="color:black">{{ proyecto.nombre }}</h2>
+        </div>
+    </div>
+    <label for="" style="font-size:20px">Fecha de inicio: {{ proyecto.fecha_inicio }}</label>
+    <br>
+    <label for="" style="font-size:20px">Fecha de fin: {{ proyecto.fecha_fin }}</label>
+    <div class="w3-container">
+        <table  class="w3-table-all w3-hoverable">
+            <thead>
+                <th>Lista de usuarios asignados</th>
+            </thead>
+            {% for usuario in proyecto.usuarios.all %}
+            <tr>
+                <td> {{ usuario.nombre }}</td>
+                <td><form action="/eliminar_user_proyecto" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" id="proyecto" name="proyecto" value={{ proyecto.id }}>
+                    <input type="hidden" id="usuario" name="usuario" value={{ usuario.id }}>
+                    <button type="submit" name="del">Eliminar</button>
+                </form></td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div class="w3-container">
+        <br><br>
+        <form action="/add_user_proyecto" method="post">
+            {% csrf_token %}
+            <label for="" style="font-size:20px">Añadir Usuario al proyecto</label><br>
+            <input type="hidden" id="proy" name="proy" value={{ proyecto.id }}>
+            <select name="usuario">
+            {% for user in usuarios %}
+            <option value={{user.id}}> {{user.nombre}} </option>
+            {% endfor %}
+            </select>
+            <button type="submit">Añadir</button>
+        </form>
+        <br><br><br>
+        <form action="/ver_backlog" method="post">
+            {% csrf_token %}
+            <input type="hidden" id="proyec" name="proyec" value={{ proyecto.id }}>
+            <button type="submit">Backlog del proyecto</button><br><br><br>
+        </form>
+
+        <button type="submit"><a href="gestion_proyectos">Atrás</a> </button>
+    </div>
+
+</body>
+</html>

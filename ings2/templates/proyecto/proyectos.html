@@ -35,10 +35,14 @@
                 </td>
                 <td> <form action="/ver_proyecto" method="POST">
                     {% csrf_token %}
-                    <input type="hidden" id="permis" name="permis" value={{ proyecto.id }}>
-                    <button type="submit" name="mod">Ver Proyecto</button>
-                    </form>
-                </td>
+                    <input type="hidden" id="proyecto" name="proyecto" value={{ proyecto.id }}>
+                    <button type="submit" name="ver">Abrir</button>
+                    </form></td>
+                    <td><form action="/eliminar_proyecto" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" id="proyect" name="proyect" value={{ proyecto.id }}>
+                    <button type="submit" name="del">Eliminar</button>
+                    </form></td>
                 <br>
             </tr>
                 {% endfor %}

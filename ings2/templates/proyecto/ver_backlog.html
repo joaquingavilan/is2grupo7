@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Backlog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+</head>
+<body>
+    <div class="w3-container py-4">
+        <div class="card container py-4" align="center">
+            <h2 style="color:black">{{ backlog.nombre }}</h2>
+        </div>
+    </div>
+    <div class="w3-container">
+        <table class="w3-table-all w3-hoverable">
+            <thead>
+                <th>User Story</th>
+                <th>Estado</th>
+                <th>Usuario</th>
+                <th>Acciones</th>
+            </thead>
+            {% for us in user_stories %}
+            <tr>
+                <td> {{us.nombre}} </td>
+                <td> {{us.estado}} </td>
+                <td> {{us.usuario}} </td>
+                <td><form action="/alterar_us" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" id="us" name="us" value={{ us.id }}>
+                        <button type="submit" name="mod">Modificar</button>
+                        <button type="submit" name="del">Eliminar</button>
+                </form></td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div class="w3-container">
+        <br><br>
+        <form action="/add_us" method="get">
+            {% csrf_token %}
+            <input type="hidden" id="backl" name="backl" value={{ backlog.id }}>
+            <button type="submit">Crear User Story</button>
+        </form>
+        <br><br><br>
+        <button type="submit"><a href="inicio">Atrás</a> </button>
+    </div>
+</body>
+</html>

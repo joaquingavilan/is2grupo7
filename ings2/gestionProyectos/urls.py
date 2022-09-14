@@ -25,5 +25,11 @@ urlpatterns = [
     path('eliminar_rol', views.eliminar_rol, name="eliminar_rol"),
     path('eliminar_usuario', views.eliminar_usuario, name="eliminar_usuario"),
     path('gestion_proyectos', views.gestion_proyectos, name="gestion_proyectos"),
-    path('add_proyecto', views.add_proyecto, name="add_proyecto")
+    path('add_proyecto', views.add_proyecto, name="add_proyecto"),
+    path('ver_proyecto', views.ver_proyecto, name="ver_proyecto"),
+    path('eliminar_proyecto', views.eliminar_proyecto, name="eliminar_proyecto"),
+    path('eliminar_user_proyecto', views.eliminar_user_proyecto, name="eliminar_user_proyecto"),
+    path('add_user_proyecto', views.add_user_proyecto, name="add_user_proyecto"),
+    path('ver_backlog', views.ver_backlog, name="ver_backlog"),
+    path('add_us', views.add_us, name="add_us")
 ]

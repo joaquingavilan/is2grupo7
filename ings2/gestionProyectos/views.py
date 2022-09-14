@@ -263,3 +263,51 @@ def add_proyecto(request):
         backlog.save()
         return redirect(gestion_proyectos)
     return render(request, 'proyecto/add_proyecto.html', {"usuarios": usuarios})
+
+
+def ver_proyecto(request):
+    proyecto = models.Proyecto.objects.get(id=request.POST['proyecto'])
+    usuarios = models.Usuario.objects.all()
+    return render(request, 'proyecto/ver_proyecto.html', {"proyecto": proyecto, "usuarios": usuarios})
+
+
+def eliminar_proyecto(request):
+    proyecto = models.Proyecto.objects.get(id=request.POST['proyect'])
+    #backlog = models.Backlog.objects.get(proyecto=proyecto)
+    #models.UserStory.objects.filter(backlog=backlog).delete()
+    #models.Backlog.objects.filter(proyecto=proyecto).delete()
+    models.Proyecto.objects.filter(id=request.POST['proyect']).delete()
+    return redirect(gestion_proyectos)
+
+def eliminar_user_proyecto(request):
+    usuarios = models.Usuario.objects.all()
+    proyecto = models.Proyecto.objects.get(id=request.POST['proyecto'])
+    proyecto.usuarios.remove(models.Usuario.objects.get(id=request.POST['usuario']))
+    proyecto = models.Proyecto.objects.get(id=request.POST['proyecto'])
+    return render(request, 'proyecto/ver_proyecto.html', {"proyecto": proyecto, "usuarios": usuarios})
+
+
+def add_user_proyecto(request):
+    usuarios = models.Usuario.objects.all()
+    proyecto = models.Proyecto.objects.get(id=request.POST['proy'])
+    usuario = models.Usuario.objects.get(id=request.POST['usuario'])
+    for user in proyecto.usuarios.all():
+        if user.id == usuario.id:
+            return render(request, 'proyecto/ver_proyecto.html', {"proyecto": proyecto, "usuarios": usuarios})
+    proyecto.usuarios.add(usuario)
+    return render(request, 'proyecto/ver_proyecto.html', {"proyecto": proyecto, "usuarios": usuarios})
+
+
+def ver_backlog(request):
+    proyecto = models.Proyecto.objects.get(id=request.POST['proyec'])
+    backlog = models.Backlog.objects.get(proyecto=proyecto)
+    user_stories = models.UserStory.objects.filter(backlog=backlog)
+    return render(request, 'proyecto/ver_backlog.html', {"backlog": backlog, "user_stories": user_stories})
+
+
+def add_us(request):
+    #if request.method=='POST':
+    backlog = models.Backlog.objects.get(id=request.GET['backl'])
+    proyecto = backlog.proyecto
+    usuarios = proyecto.usuarios.all()
+    return render(request, 'proyecto/add_us.html', {"backlog": backlog, "usuarios": usuarios})

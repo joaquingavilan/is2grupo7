@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Crear User Story</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+</head>
+<body>
+    <div class="w3-container py-4">
+        <div class="card container py-4" align="center">
+            <h2 style="color:black">Crear User Story en el backlog {{ backlog.nombre }}</h2>
+        </div>
+    </div>
+    <form class="card container text center" align="center"action="/add_us" method="post">
+        {% csrf_token %}
+        <label for="" style="font-size:20px">Nombre de la User Story</label>
+        <input type="text" style="font-size:20px" id="nombre" name="nombre"  required>
+        <br>
+        <label for="" style="font-size:20px">Usuario al que corresponde</label>
+        <select name="usuario">
+            {% for usuario in usuarios %}
+            <option value={{usuario.id}}>{{ usuario.nombre }}</option>
+            {% endfor %}
+        </select><br>
+        <label for="" style="font-size:20px">Seleccione el sprint al que pertenece</label>
+        <br><br>
+        <button type="submit" class="waves-effect waves light btn-large">Crear User Story</button>
+        <br><br>
+        <button type="submit"><a href="ver_backlog">Atrás</a> </button>
+    </form>
+
+</body>
+</html>

@@ -52,5 +52,5 @@ class Backlog(models.Model):
 class UserStory(models.Model):
     nombre = models.CharField(max_length=50)
     backlog = models.ForeignKey(Backlog, on_delete=models.CASCADE)
-    usuarios = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     fecha_inicio = models.DateField
