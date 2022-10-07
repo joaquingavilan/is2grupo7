@@ -17,10 +17,16 @@
     <label for="" style="font-size:20px">Fecha de inicio: {{ proyecto.fecha_inicio }}</label>
     <br>
     <label for="" style="font-size:20px">Fecha de fin: {{ proyecto.fecha_fin }}</label>
+
+    <form align="center" action="/ver_backlog" method="post">
+            {% csrf_token %}
+            <input type="hidden" id="proyec" name="proyec" value={{ proyecto.id }}>
+            <button type="submit">Ingresar al Backlog del proyecto</button><br><br><br>
+    </form>
     <div class="w3-container">
         <table  class="w3-table-all w3-hoverable">
             <thead>
-                <th>Lista de usuarios asignados</th>
+                <th>Lista de usuarios incluidos en el proyecto</th>
             </thead>
             {% for usuario in proyecto.usuarios.all %}
             <tr>
@@ -36,7 +42,7 @@
         </table>
     </div>
     <div class="w3-container">
-        <br><br>
+        <br>
         <form action="/add_user_proyecto" method="post">
             {% csrf_token %}
             <label for="" style="font-size:20px">Añadir Usuario al proyecto</label><br>
@@ -49,11 +55,7 @@
             <button type="submit">Añadir</button>
         </form>
         <br><br><br>
-        <form action="/ver_backlog" method="post">
-            {% csrf_token %}
-            <input type="hidden" id="proyec" name="proyec" value={{ proyecto.id }}>
-            <button type="submit">Backlog del proyecto</button><br><br><br>
-        </form>
+
 
         <button type="submit"><a href="gestion_proyectos">Atrás</a> </button>
     </div>

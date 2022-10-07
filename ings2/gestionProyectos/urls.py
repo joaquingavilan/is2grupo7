@@ -31,5 +31,7 @@ urlpatterns = [
     path('eliminar_user_proyecto', views.eliminar_user_proyecto, name="eliminar_user_proyecto"),
     path('add_user_proyecto', views.add_user_proyecto, name="add_user_proyecto"),
     path('ver_backlog', views.ver_backlog, name="ver_backlog"),
-    path('add_us', views.add_us, name="add_us")
+    path('ver_sprint', views.ver_sprint, name="ver_sprint"),
+    path('add_us', views.add_us, name="add_us"),
+    path('add_sp', views.add_sp, name="add_sp")
 ]

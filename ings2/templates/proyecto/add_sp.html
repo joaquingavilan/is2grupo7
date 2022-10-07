@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Crear Sprint</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+</head>
+<body>
+    <div class="w3-container py-4">
+        <div class="card container py-4" align="center">
+            <h2 style="color:black">Crear Sprint en el backlog {{ backlog.nombre }}</h2>
+        </div>
+    </div>
+    <form class="card container text center" align="center"action="/add_sp" method="post">
+        {% csrf_token %}
+        <label for="" style="font-size:20px">Ingrese la duracion del sprint (en dias)</label>
+        <input type="hidden" id="backl" name="backl" value={{ backlog.id }}>
+        <input type="number" style="font-size:20px" id="duracion" name="duracion" min="1" value="15"  required>
+        <br>
+        <label for="" style="font-size:20px">Seleccione la fecha de inicio</label>
+        <input type="date" id="inicio" name="inicio">
+        <br><br>
+        <button type="submit" class="waves-effect waves light btn-large">Crear Sprint</button>
+        <br><br>
+    </form>
+    <form class="card container text center" align="center" action="/ver_backlog" method="post">
+            {% csrf_token %}
+            <input type="hidden" id="proyec" name="proyec" value={{ backlog.proyecto.id }}>
+            <button type="submit">Atras</button><br><br><br>
+    </form>
+</body>
+</html>

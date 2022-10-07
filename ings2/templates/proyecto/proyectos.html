@@ -36,7 +36,7 @@
                 <td> <form action="/ver_proyecto" method="POST">
                     {% csrf_token %}
                     <input type="hidden" id="proyecto" name="proyecto" value={{ proyecto.id }}>
-                    <button type="submit" name="ver">Abrir</button>
+                    <button type="submit" name="ver">Ver Proyecto</button>
                     </form></td>
                     <td><form action="/eliminar_proyecto" method="POST">
                     {% csrf_token %}

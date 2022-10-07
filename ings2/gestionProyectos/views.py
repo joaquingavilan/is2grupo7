@@ -301,13 +301,42 @@ def add_user_proyecto(request):
 def ver_backlog(request):
     proyecto = models.Proyecto.objects.get(id=request.POST['proyec'])
     backlog = models.Backlog.objects.get(proyecto=proyecto)
-    user_stories = models.UserStory.objects.filter(backlog=backlog)
-    return render(request, 'proyecto/ver_backlog.html', {"backlog": backlog, "user_stories": user_stories})
+    sprints = models.Sprint.objects.filter(backlog=backlog)
+    return render(request, 'proyecto/ver_backlog.html', {"backlog": backlog, "sprints": sprints})
+
+
+def ver_sprint(request):
+    backlog = models.Backlog.objects.get(id=request.POST['back'])
+    sprint = models.Sprint.objects.get(backlog=backlog)
+    user_stories = models.UserStory.objects.filter(sprint=sprint)
+    return render(request, 'proyecto/ver_sprint.html', {"backlog": backlog, "sprint": sprint, "user_stories": user_stories})
 
 
 def add_us(request):
-    #if request.method=='POST':
+    if request.method == 'GET':
+        sprint = models.Sprint.objects.get(id=request.GET['sp'])
+        proyecto = sprint.backlog.proyecto
+        usuarios = proyecto.usuarios.all()
+        return render(request, 'proyecto/add_us.html', {"sprint": sprint, "usuarios": usuarios})
+    elif request.method == 'POST':
+        nombre = request.POST['nombre']
+        usuario = models.Usuario.objects.get(id=request.POST['usuario'])
+        sprint = models.Sprint.objects.get(id=request.POST['sp'])
+        fecha_inicio = request.POST['inicio']
+        user_story = models.UserStory(nombre=nombre, usuario=usuario, sprint=sprint,fecha_inicio=fecha_inicio)
+        user_story.save()
+        backlog = sprint.backlog
+        user_stories = models.UserStory.objects.filter(sprint=sprint)
+        return render(request, 'proyecto/ver_sprint.html', {"backlog": backlog, "sprint": sprint, "user_stories": user_stories})
+
+
+
+def add_sp(request):
+    if request.method == 'POST':
+        backlog = models.Backlog.objects.get(id=request.POST['backl'])
+        sprint = models.Sprint(duracion=request.POST['duracion'],backlog=backlog,fecha_inicio=request.POST['inicio'])
+        sprint.save()
+        sprints = models.Sprint.objects.filter(backlog=backlog)
+        return render(request, 'proyecto/ver_backlog.html', {"backlog": backlog, "sprints": sprints})
     backlog = models.Backlog.objects.get(id=request.GET['backl'])
-    proyecto = backlog.proyecto
-    usuarios = proyecto.usuarios.all()
-    return render(request, 'proyecto/add_us.html', {"backlog": backlog, "usuarios": usuarios})
+    return render(request, 'proyecto/add_sp.html', {"backlog": backlog})

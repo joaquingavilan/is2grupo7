@@ -10,11 +10,12 @@
 <body>
     <div class="w3-container py-4">
         <div class="card container py-4" align="center">
-            <h2 style="color:black">Crear User Story en el backlog {{ backlog.nombre }}</h2>
+            <h2 style="color:black">Crear User Story en el sprint {{ sprint.id }}</h2>
         </div>
     </div>
     <form class="card container text center" align="center"action="/add_us" method="post">
         {% csrf_token %}
+        <input type="hidden" id="sp" name="sp" value={{ sprint.id }}>
         <label for="" style="font-size:20px">Nombre de la User Story</label>
         <input type="text" style="font-size:20px" id="nombre" name="nombre"  required>
         <br>
@@ -23,12 +24,18 @@
             {% for usuario in usuarios %}
             <option value={{usuario.id}}>{{ usuario.nombre }}</option>
             {% endfor %}
-        </select><br>
-        <label for="" style="font-size:20px">Seleccione el sprint al que pertenece</label>
+        </select>
+        <br>
+        <label for="" style="font-size:20px">Seleccione la fecha de inicio</label>
+        <input type="date" id="inicio" name="inicio">
         <br><br>
         <button type="submit" class="waves-effect waves light btn-large">Crear User Story</button>
         <br><br>
-        <button type="submit"><a href="ver_backlog">Atrás</a> </button>
+    </form>
+    <form class="card container text center" align="center" action="/ver_sprint" method="post">
+            {% csrf_token %}
+            <input type="hidden" id="back" name="back" value={{ sprint.backlog.id }}>
+            <button type="submit">Atras</button><br><br><br>
     </form>
 
 </body>

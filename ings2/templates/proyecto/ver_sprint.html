@@ -14,25 +14,23 @@
             <h2 style="color:black">{{ backlog.nombre }}</h2>
         </div>
     </div>
-    <h4>Lista de sprints dentro del backlog</h4><br>
     <div class="w3-container">
         <table class="w3-table-all w3-hoverable">
             <thead>
-                <th>Sprint</th>
+                <th>User Story</th>
                 <th>Estado</th>
-                <th>Fecha de inicio</th>
+                <th>Usuario</th>
                 <th>Acciones</th>
             </thead>
-            {% for sp in sprints %}
+            {% for us in user_stories %}
             <tr>
-                <td> {{sp.id}} </td>
-                <td> {{sp.estado}} </td>
-                <td> {{sp.fecha_inicio}} </td>
-                <td><form action="/ver_sprint" method="POST">
+                <td> {{us.nombre}} </td>
+                <td> {{us.estado}} </td>
+                <td> {{us.usuario.nombre}} </td>
+                <td><form action="/alterar_us" method="POST">
                         {% csrf_token %}
-                        <input type="hidden" id="sp" name="sp" value={{ sp.id }}>
-                        <input type="hidden" id="back" name="back" value={{ backlog.id }}>
-                        <button type="submit" name="mod">Abrir Sprint</button>
+                        <input type="hidden" id="us" name="us" value={{ us.id }}>
+                        <button type="submit" name="del">Eliminar</button>
                 </form></td>
             </tr>
             {% endfor %}
@@ -40,17 +38,13 @@
     </div>
     <div class="w3-container">
         <br><br>
-        <form action="/add_sp" method="get">
+        <form action="/add_us" method="get">
             {% csrf_token %}
-            <input type="hidden" id="backl" name="backl" value={{ backlog.id }}>
-            <button type="submit">Crear Sprint</button>
+            <input type="hidden" id="sp" name="sp" value={{ sprint.id }}>
+            <button type="submit">Crear User Story</button>
         </form>
-        <br>
-        <form action="/ver_proyecto" method="post">
-            {% csrf_token %}
-            <input type="hidden" id="proyecto" name="proyecto" value={{ backlog.proyecto.id }}>
-            <button type="submit">Atras</button><br><br><br>
-    </form>
+        <br><br><br>
+        <button type="submit"><a href="inicio">Atrás</a> </button>
     </div>
 </body>
 </html>
