@@ -23,7 +23,7 @@
                 <th>Fecha de inicio</th>
                 <th>Acciones</th>
             </thead>
-            {% for sp in sprints %}
+            {% for sp in sprints.all%}
             <tr>
                 <td> {{sp.id}} </td>
                 <td> {{sp.estado}} </td>

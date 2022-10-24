@@ -10,8 +10,8 @@ from django.http import JsonResponse
 # Create your views here.
 def home(request):
     if not models.Formulario.objects.exists():
-        crear_formularios()
-    return render(request, "login/index.html")
+        crear_formularios()                         #se cargan los formularios (son estaticos, no se crean dentro del sistema pero deben actualizrse a medida que se agregan funciones)
+    return render(request, "login/index.html")      #se muestra la pagina de inicio
 
 
 def ingreso(request):
@@ -19,12 +19,12 @@ def ingreso(request):
         usuario = request.POST['usuario']
         contrasena = request.POST['contrasena']
 
-        user = authenticate(username=usuario, password=contrasena)
+        user = authenticate(username=usuario, password=contrasena)  #se utiliza una funcion de la libreria User para ver si la contraseña y user estan correctos
 
-        if user is not None:
-            login(request, user)
-            nombre = user.first_name
-            return render(request, "login/index.html", {'nombre': nombre})
+        if user is not None:                                        #si el usuario es correcto
+            login(request, user)                                    #se loguea
+            nombre = user.first_name                                #se pasa el nombre para mostrar mensaje de bienvenida
+            return render(request, "login/index.html", {'nombre': nombre}) #pasando el nombre al html para poder mostrar
         else:
             messages.error(request, "Datos erroneos")
             return redirect('home')
@@ -45,39 +45,28 @@ def seguridad(request):
 
 
 def gestion_usuarios(request):
-    lista_usuarios = models.Usuario.objects.all()
+    lista_usuarios = models.Usuario.objects.all()           #se obtiene la lista de usuarios del sistema
     contexto = {
         "lista_usuarios": lista_usuarios
     }
-    return render(request, "seguridad/usuarios/usuarios.html", contexto)
+    return render(request, "seguridad/usuarios/usuarios.html", contexto)        #se pasa la lista de usuarios al html para poder visualizar
 
 
 def gestion_roles(request):
-    lista_roles = models.Rol.objects.all()
+    lista_roles = models.Rol.objects.all() #obtener lista de roles
 
     contexto = {
         "lista_roles": lista_roles
     }
-    return render(request, "seguridad/roles/roles.html", contexto)
+    return render(request, "seguridad/roles/roles.html", contexto) #pasar lista de roles
 
 
 def gestion_permisos(request):
-    lista_permisos = models.Permiso.objects.all()
+    lista_permisos = models.Permiso.objects.all() #obtener lista de permisos
     contexto = {
         "lista_permisos": lista_permisos
     }
-    return render(request, "seguridad/permisos/permisos.html", contexto)
-
-
-def busq_usuarios(request):
-    query_dict = request.GET.get("busq_usuario")
-    usuario_encontrado = None
-    if query_dict is not None:
-        usuario_encontrado = models.Usuario.objects.get(nombre=query_dict)
-    contexto = {
-        "usuario": usuario_encontrado
-    }
-    return render(request, "seguridad/usuarios/buscar_usuario.html", contexto)
+    return render(request, "seguridad/permisos/permisos.html", contexto) #pasar lista de permisos
 
 
 def inicio(request):
@@ -85,17 +74,17 @@ def inicio(request):
 
 
 def add_usuario(request):
-    roles = models.Rol.objects.all()
+    roles = models.Rol.objects.all() #obtenemos los roles
     if request.method == "POST":
         usuario = request.POST['usuario']
         contrasena = request.POST['contrasena']
-        rol = models.Rol.objects.get(id=request.POST['rol'])
+        rol = models.Rol.objects.get(id=request.POST['rol']) #extraemos el rol que coincide con el rol proveniente de la request
         u = models.Usuario(nombre=usuario, contrasena=contrasena, rol=rol) #se guarda el usuario en la tabla Usuario, creada en el modelo
         u.save()
         user = User.objects.create_user(username=usuario, password=contrasena) #se guarda el usuario en la tabla auth_user (proveida por django)
         user.save()
         return redirect('seguridad')
-    return render(request, "seguridad/usuarios/add_usuario.html", {"roles": roles})
+    return render(request, "seguridad/usuarios/add_usuario.html", {"roles": roles}) #si no hay un formulario POST se pasa la lista de roles para poder asignar uno al usuario nuevo
 
 
 def add_permiso(request):
@@ -309,7 +298,22 @@ def ver_sprint(request):
     backlog = models.Backlog.objects.get(id=request.POST['back'])
     sprint = models.Sprint.objects.get(backlog=backlog)
     user_stories = models.UserStory.objects.filter(sprint=sprint)
-    return render(request, 'proyecto/ver_sprint.html', {"backlog": backlog, "sprint": sprint, "user_stories": user_stories})
+    pendientes = []
+    activos = []
+    finalizados = []
+    for us in user_stories:
+        if us.estado == 'PENDIENTE':
+            pendientes.append(us.nombre)
+        elif us.estado == 'EN CURSO':
+            activos.append(us.nombre)
+        elif us.estado == 'FINALIZADO':
+            finalizados.append(us.nombre)
+    return render(request, 'proyecto/ver_sprint.html', {"backlog": backlog,
+                                                        "sprint": sprint,
+                                                        "user_stories": user_stories,
+                                                        "activos": activos,
+                                                        "pendientes": pendientes,
+                                                        "finalizados": finalizados})
 
 
 def add_us(request):
@@ -325,9 +329,9 @@ def add_us(request):
         fecha_inicio = request.POST['inicio']
         user_story = models.UserStory(nombre=nombre, usuario=usuario, sprint=sprint,fecha_inicio=fecha_inicio)
         user_story.save()
-        backlog = sprint.backlog
-        user_stories = models.UserStory.objects.filter(sprint=sprint)
-        return render(request, 'proyecto/ver_sprint.html', {"backlog": backlog, "sprint": sprint, "user_stories": user_stories})
+        backlog = models.Backlog.objects.get(id=sprint.backlog.id)
+        sprints = models.Sprint.objects.get(backlog=backlog)
+        return render(request, 'proyecto/ver_backlog.html', {"backlog": backlog, "sprints": sprints})
 
 
 

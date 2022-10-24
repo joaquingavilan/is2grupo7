@@ -17,23 +17,21 @@
     <div class="w3-container">
         <table class="w3-table-all w3-hoverable">
             <thead>
-                <th>User Story</th>
-                <th>Estado</th>
-                <th>Usuario</th>
-                <th>Acciones</th>
+                <th>PENDIENTES</th>
+                <th>EN CURSO</th>
+                <th>FINALIZADOS</th>
             </thead>
-            {% for us in user_stories %}
             <tr>
-                <td> {{us.nombre}} </td>
-                <td> {{us.estado}} </td>
-                <td> {{us.usuario.nombre}} </td>
-                <td><form action="/alterar_us" method="POST">
-                        {% csrf_token %}
-                        <input type="hidden" id="us" name="us" value={{ us.id }}>
-                        <button type="submit" name="del">Eliminar</button>
-                </form></td>
+                <td>{% for p in pendientes %}
+                 {{p}}<br>
+                {% endfor %}</td>
+                <td>{% for a in activos %}
+                 {{a}}
+                {% endfor %}</td>
+                <td>{% for f in finalizados %}
+                 {{f}}
+                {% endfor %}</td>
             </tr>
-            {% endfor %}
         </table>
     </div>
     <div class="w3-container">

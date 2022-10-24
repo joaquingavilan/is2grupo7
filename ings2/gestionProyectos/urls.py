@@ -9,7 +9,6 @@ urlpatterns = [
     path('gestion_usuarios', views.gestion_usuarios, name="gestion_usuarios"),
     path('gestion_roles', views.gestion_roles, name="gestion_roles"),
     path('gestion_permisos', views.gestion_permisos, name="gestion_permisos"),
-    path('busq_usuarios', views.busq_usuarios),
     path('inicio', views.inicio, name="inicio"),
     path('add_usuario', views.add_usuario, name="add_usuario"),
     path('add_rol', views.add_rol, name="add_rol"),
