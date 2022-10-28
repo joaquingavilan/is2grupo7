@@ -5,13 +5,14 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from gestionProyectos import models
 from django.http import JsonResponse
+from datetime import datetime
 
 
 # Create your views here.
 def home(request):
     if not models.Formulario.objects.exists():
         crear_formularios()                         #se cargan los formularios (son estaticos, no se crean dentro del sistema pero deben actualizrse a medida que se agregan funciones)
-    return render(request, "login/index.html")      #se muestra la pagina de inicio
+    return render(request, "login/ingreso.html")      #se muestra la pagina de inicio
 
 
 def ingreso(request):
@@ -296,24 +297,9 @@ def ver_backlog(request):
 
 def ver_sprint(request):
     backlog = models.Backlog.objects.get(id=request.POST['back'])
-    sprint = models.Sprint.objects.get(backlog=backlog)
+    sprint = models.Sprint.objects.get(id=request.POST['sp'])
     user_stories = models.UserStory.objects.filter(sprint=sprint)
-    pendientes = []
-    activos = []
-    finalizados = []
-    for us in user_stories:
-        if us.estado == 'PENDIENTE':
-            pendientes.append(us.nombre)
-        elif us.estado == 'EN CURSO':
-            activos.append(us.nombre)
-        elif us.estado == 'FINALIZADO':
-            finalizados.append(us.nombre)
-    return render(request, 'proyecto/ver_sprint.html', {"backlog": backlog,
-                                                        "sprint": sprint,
-                                                        "user_stories": user_stories,
-                                                        "activos": activos,
-                                                        "pendientes": pendientes,
-                                                        "finalizados": finalizados})
+    return render(request, 'proyecto/ver_sprint.html', {"backlog":backlog,"sprint":sprint,"user_stories": user_stories})
 
 
 def add_us(request):
@@ -330,7 +316,7 @@ def add_us(request):
         user_story = models.UserStory(nombre=nombre, usuario=usuario, sprint=sprint,fecha_inicio=fecha_inicio)
         user_story.save()
         backlog = models.Backlog.objects.get(id=sprint.backlog.id)
-        sprints = models.Sprint.objects.get(backlog=backlog)
+        sprints = models.Sprint.objects.filter(backlog=backlog)
         return render(request, 'proyecto/ver_backlog.html', {"backlog": backlog, "sprints": sprints})
 
 
@@ -338,9 +324,46 @@ def add_us(request):
 def add_sp(request):
     if request.method == 'POST':
         backlog = models.Backlog.objects.get(id=request.POST['backl'])
-        sprint = models.Sprint(duracion=request.POST['duracion'],backlog=backlog,fecha_inicio=request.POST['inicio'])
+        sprint = models.Sprint(duracion=request.POST['duracion'],backlog=backlog)
         sprint.save()
         sprints = models.Sprint.objects.filter(backlog=backlog)
         return render(request, 'proyecto/ver_backlog.html', {"backlog": backlog, "sprints": sprints})
     backlog = models.Backlog.objects.get(id=request.GET['backl'])
     return render(request, 'proyecto/add_sp.html', {"backlog": backlog})
+
+
+def iniciar_sprint(request):
+    if request.method == 'POST':
+        sprint = models.Sprint.objects.get(id=request.POST['sp'])
+        backlog = sprint.backlog
+        sprints = models.Sprint.objects.filter(backlog=backlog)
+        for sp in sprints:
+            if sp.estado == "EN CURSO":
+                return render(request, 'proyecto/ver_backlog.html', {"backlog": backlog, "sprints": sprints})
+        sprint.estado = "EN CURSO"
+        sprint.fecha_inicio = datetime.now().date()
+        sprint.save()
+        sprints = models.Sprint.objects.filter(backlog=sprint.backlog)
+        return render(request, 'proyecto/ver_backlog.html', {"backlog": backlog, "sprints": sprints})
+def cambiar_estado_us(request):
+    if request.method == 'POST':
+        id_us = request.POST['us']
+        us = models.UserStory.objects.get(id=id_us)
+        if us.estado == 'PENDIENTE':
+            us.estado = 'EN CURSO'
+            us.save()
+        elif us.estado == 'EN CURSO':
+            us.estado = 'FINALIZADO'
+            us.save()
+        backlog = us.sprint.backlog
+        sprint = us.sprint
+        user_stories = models.UserStory.objects.filter(sprint=sprint)
+        return render(request, 'proyecto/ver_sprint.html',
+                      {"backlog": backlog, "sprint": sprint, "user_stories": user_stories})
+
+
+def ver_us(request):
+    if request.method == 'POST':
+        id_us = request.POST['us']
+        us = models.UserStory.objects.get(id=id_us)
+        return render(request, 'proyecto/ver_us.html',{"us": us})

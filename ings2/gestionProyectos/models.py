@@ -51,10 +51,11 @@ class Backlog(models.Model):
 
 class Sprint(models.Model):
     class Estados(models.TextChoices):
+        PEN = "PENDIENTE", "Pendiente"
         ENC = "EN CURSO", "En Curso"
         FIN = "FINALIZADO", "Finalizado"
     duracion = models.IntegerField(default=15)
-    estado = models.CharField(choices=Estados.choices, max_length=50, default=Estados.ENC)
+    estado = models.CharField(choices=Estados.choices, max_length=50, default=Estados.PEN)
     backlog = models.ForeignKey(Backlog, on_delete=models.CASCADE)
     fecha_inicio = models.DateField(null=True)
     fecha_fin = models.DateField(null=True)

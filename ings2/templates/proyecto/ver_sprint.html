@@ -22,15 +22,55 @@
                 <th>FINALIZADOS</th>
             </thead>
             <tr>
-                <td>{% for p in pendientes %}
-                 {{p}}<br>
-                {% endfor %}</td>
-                <td>{% for a in activos %}
-                 {{a}}
-                {% endfor %}</td>
-                <td>{% for f in finalizados %}
-                 {{f}}
-                {% endfor %}</td>
+                <td>
+                    {% for us in user_stories %}
+                        {% if us.estado == "PENDIENTE" %}
+                            {{us.nombre}}
+                            <form action="/ver_us" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" id="us" name="us" value={{ us.id }}>
+                                <button type="submit">Ver User Story</button>
+                            </form>
+                            <form action="/cambiar_estado_us" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" id="us" name="us" value={{ us.id }}>
+                                <button type="submit">Mover a En Curso</button>
+                            </form><br>
+                            <h2>-------------------</h2>
+                        {% endif %}
+                    {% endfor %}
+                </td>
+                <td>
+                    {% for us in user_stories %}
+                        {% if us.estado == "EN CURSO" %}
+                            {{us.nombre}}
+                            <form action="/ver_us" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" id="us" name="us" value={{ us.id }}>
+                                <button type="submit">Ver User Story</button>
+                            </form>
+                            <form action="/cambiar_estado_us" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" id="us" name="us" value={{ us.id }}>
+                                <button type="submit">Mover a Finalizado</button>
+                            </form><br>
+                            <h2>-------------------</h2>
+                        {% endif %}
+                    {% endfor %}
+                </td>
+                <td>
+                    {% for us in user_stories %}
+                        {% if us.estado == "FINALIZADO" %}
+                            {{us.nombre}}
+                            <form action="/ver_us" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" id="us" name="us" value={{ us.id }}>
+                                <button type="submit">Ver User Story</button>
+                            </form>
+                            <h2>-------------------</h2>
+                        {% endif %}
+                    {% endfor %}
+                </td>
             </tr>
         </table>
     </div>

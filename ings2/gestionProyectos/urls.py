@@ -32,5 +32,8 @@ urlpatterns = [
     path('ver_backlog', views.ver_backlog, name="ver_backlog"),
     path('ver_sprint', views.ver_sprint, name="ver_sprint"),
     path('add_us', views.add_us, name="add_us"),
-    path('add_sp', views.add_sp, name="add_sp")
+    path('add_sp', views.add_sp, name="add_sp"),
+    path('cambiar_estado_us', views.cambiar_estado_us, name="cambiar_estado_us"),
+    path('ver_us', views.ver_us, name="ver_us"),
+    path('iniciar_sprint', views.iniciar_sprint, name="iniciar_sprint")
 ]

@@ -27,12 +27,22 @@
             <tr>
                 <td> {{sp.id}} </td>
                 <td> {{sp.estado}} </td>
-                <td> {{sp.fecha_inicio}} </td>
+                <td>{% if sp.estado != "PENDIENTE" %}
+                    {{sp.fecha_inicio}}
+                    {% else %}
+                        <h4 style="color:black">-</h4>
+                    {% endif %}
+                </td>
                 <td><form action="/ver_sprint" method="POST">
                         {% csrf_token %}
                         <input type="hidden" id="sp" name="sp" value={{ sp.id }}>
                         <input type="hidden" id="back" name="back" value={{ backlog.id }}>
                         <button type="submit" name="mod">Abrir Sprint</button>
+                </form><br>
+                    <form action="/iniciar_sprint" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" id="sp" name="sp" value={{ sp.id }}>
+                        <button type="submit" name="mod">Iniciar Sprint</button>
                 </form></td>
             </tr>
             {% endfor %}

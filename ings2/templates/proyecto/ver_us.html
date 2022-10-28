@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+<head>
+    <meta charset="UTF-8">
+    <title>Ver User Story</title>
+</head>
+<body>
+  <div class="container py-4">
+        <div class="card container teal py-4" align="center">
+          <h2 style="color:black">Ver User Story</h2>
+        </div>
+  </div>
+  <div class="w3-container py-4" align="center">
+    <label for="" style="font-size:20px">Nombre: {{ us.nombre }}</label>
+    <br>
+    <label for="" style="font-size:20px">Usuario asignado: {{ us.usuario.nombre }}</label>
+    <br>
+    <label for="" style="font-size:20px">Fecha de inicio: {{ us.fecha_inicio }}</label>
+    <br>
+    <label for="" style="font-size:20px">Estado: {{ us.estado }}</label>
+  </div>
+    <form action="/ver_sprint" method="POST" align="center">
+                            {% csrf_token %}
+                            <input type="hidden" id="sp" name="sp" value={{ us.sprint.id }}>
+                            <input type="hidden" id="back" name="back" value={{ us.sprint.backlog.id }}>
+                            <button type="submit" name="mod">Volver al tablero del Sprint</button>
+    </form>
+</body>
+</html>
