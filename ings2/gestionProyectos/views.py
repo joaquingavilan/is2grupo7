@@ -5,14 +5,39 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from gestionProyectos import models
 from django.http import JsonResponse
-from datetime import datetime
+from datetime import datetime, timedelta, date
 
 
 # Create your views here.
 def home(request):
     if not models.Formulario.objects.exists():
         crear_formularios()                         #se cargan los formularios (son estaticos, no se crean dentro del sistema pero deben actualizrse a medida que se agregan funciones)
+    verificar_sprints()
     return render(request, "login/ingreso.html")      #se muestra la pagina de inicio
+
+
+def verificar_sprints():
+    sprints = models.Sprint.objects.all()
+    for sp in sprints:
+        if sp.fecha_inicio is not None:
+            if (datetime.now().date() > sp.fecha_fin) and (sp.estado == "EN CURSO"): #selecciona los sprints activos cuya duracion terminó
+                backlog = sp.backlog                                                                                #selecciona el backlog del sprint seleccionado
+                sprints = models.Sprint.objects.filter(backlog=backlog)                                             #selecciona todos los sprints del backlog seleccionado
+                sp.estado = "FINALIZADO"
+                sp.save()
+                for spr in sprints:
+                    if spr.fecha_inicio is None:                                                                    #selecciona el sprint con fecha de inicio null
+                        spr.fecha_inicio = sp.fecha_inicio + timedelta(days=1)                                     #cambia la fecha de inicio al dia siguiente de la fecha de fin
+                        spr.save()
+                        spr.fecha_fin = spr.fecha_inicio + timedelta(days=spr.duracion)                               #actualiza la fecha de fin del sprint
+                        spr.save()
+                        spr.estado = "EN CURSO"                                                                    #cambia el estado a En Curso
+                        spr.save()
+                        user_stories = models.UserStory.objects.filter(sprint=sp)                                   #obtiene las user_stories del sprint anterior
+                        for us in user_stories:
+                            if us.estado != "FINALIZADO":                                                           #si el estado no es finalizado, mueve la US al siguiente sprint
+                                us.sprint = spr
+                                us.save()
 
 
 def ingreso(request):
@@ -332,6 +357,29 @@ def add_sp(request):
     return render(request, 'proyecto/add_sp.html', {"backlog": backlog})
 
 
+def finalizar_sprint(request):
+    if request.method == 'POST':
+        sprint = models.Sprint.objects.get(id=request.POST['sp'])
+        backlog = sprint.backlog
+        sprints = models.Sprint.objects.filter(backlog=backlog)
+        user_stories = models.UserStory.objects.filter(sprint=sprint)
+        if sprint.estado == "FINALIZADO":
+            return render(request, 'proyecto/ver_backlog.html', {"backlog": backlog, "sprints": sprints})
+        for us in user_stories:
+            if (us.estado == "EN CURSO") or (us.estado == "PENDIENTE"):
+                return render(request, 'proyecto/ver_backlog.html', {"backlog": backlog, "sprints": sprints})
+        sprint.estado = "FINALIZADO"
+        sprint.fecha_fin = datetime.now().date()
+        sprint.save()
+        for sp in sprints:
+            if sp.estado == "PENDIENTE":
+                return render(request, 'proyecto/ver_backlog.html', {"backlog": backlog, "sprints": sprints})
+        proyecto = backlog.proyecto
+        proyecto.estado = "FINALIZADO"
+        proyecto.save()
+        return render(request, "login/index.html")
+
+
 def iniciar_sprint(request):
     if request.method == 'POST':
         sprint = models.Sprint.objects.get(id=request.POST['sp'])
@@ -342,9 +390,12 @@ def iniciar_sprint(request):
                 return render(request, 'proyecto/ver_backlog.html', {"backlog": backlog, "sprints": sprints})
         sprint.estado = "EN CURSO"
         sprint.fecha_inicio = datetime.now().date()
+        sprint.fecha_fin = sprint.fecha_inicio + timedelta(days=sprint.duracion)
         sprint.save()
         sprints = models.Sprint.objects.filter(backlog=sprint.backlog)
         return render(request, 'proyecto/ver_backlog.html', {"backlog": backlog, "sprints": sprints})
+
+
 def cambiar_estado_us(request):
     if request.method == 'POST':
         id_us = request.POST['us']

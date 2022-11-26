@@ -35,5 +35,6 @@ urlpatterns = [
     path('add_sp', views.add_sp, name="add_sp"),
     path('cambiar_estado_us', views.cambiar_estado_us, name="cambiar_estado_us"),
     path('ver_us', views.ver_us, name="ver_us"),
-    path('iniciar_sprint', views.iniciar_sprint, name="iniciar_sprint")
+    path('iniciar_sprint', views.iniciar_sprint, name="iniciar_sprint"),
+    path('finalizar_sprint', views.finalizar_sprint, name="finalizar_sprint")
 ]

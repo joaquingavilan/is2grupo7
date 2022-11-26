@@ -21,6 +21,7 @@
                 <th>Sprint</th>
                 <th>Estado</th>
                 <th>Fecha de inicio</th>
+                <th>Fecha de fin</th>
                 <th>Acciones</th>
             </thead>
             {% for sp in sprints.all%}
@@ -28,7 +29,13 @@
                 <td> {{sp.id}} </td>
                 <td> {{sp.estado}} </td>
                 <td>{% if sp.estado != "PENDIENTE" %}
-                    {{sp.fecha_inicio}}
+                        {{sp.fecha_inicio}}
+                    {% else %}
+                        <h4 style="color:black">-</h4>
+                    {% endif %}
+                </td>
+                <td>{% if sp.estado != "PENDIENTE" %}
+                        {{sp.fecha_fin}}
                     {% else %}
                         <h4 style="color:black">-</h4>
                     {% endif %}
@@ -39,11 +46,17 @@
                         <input type="hidden" id="back" name="back" value={{ backlog.id }}>
                         <button type="submit" name="mod">Abrir Sprint</button>
                 </form><br>
-                    <form action="/iniciar_sprint" method="POST">
+                <form action="/iniciar_sprint" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" id="sp" name="sp" value={{ sp.id }}>
+                    <button type="submit" name="mod">Iniciar Sprint</button>
+                </form><br>
+                <form action="/finalizar_sprint" method="POST">
                         {% csrf_token %}
                         <input type="hidden" id="sp" name="sp" value={{ sp.id }}>
-                        <button type="submit" name="mod">Iniciar Sprint</button>
-                </form></td>
+                        <button type="submit" name="mod">Finalizar Sprint</button>
+                </form><br>
+                </td>
             </tr>
             {% endfor %}
         </table>
