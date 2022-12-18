@@ -8,11 +8,11 @@
     <title>Ingreso</title>
 </head>
 <body>
-    <div class="container py-4">
-      <div class="card container teal py-4" align="center">
+    <div class="container py-4 bg-info">
+      <div class="card container teal py-4 bg-info" align="center">
         <h2 style="color:white">Login</h2>
       </div>
-      <form class="card container text center" align="center" action="/ingreso" method="post">
+      <form class="card container text center bg-info" align="center" action="/ingreso" method="post">
           {% csrf_token %}
           <label for="" style="font-size:20px">Usuario</label>
           <input type="text" id="usuario" name="usuario" placeholder="Ingresa tu nombre de usuario" required>
@@ -20,7 +20,7 @@
           <label for="" style="font-size:20px">Contraseña</label>
           <input type="password" id="contrasena" name="contrasena" placeholder="Ingresa tu contraseña" required>
           <br>
-          <button type="submit" class="waves-effect waves light btn-large">Ingresar</button>
+          <button type="submit" class="btn btn-dark btn-xs">Ingresar</button>
       </form>
     </div>
 </body>
